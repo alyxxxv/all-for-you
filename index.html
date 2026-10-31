@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FBF0DC">
+<meta name="robots" content="noindex,nofollow">
+<title>All For You · Wedding Vendor Tracker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Ccircle cx=%2232%22 cy=%2238%22 r=%2216%22 fill=%22none%22 stroke=%22%23AAAA7A%22 stroke-width=%226%22/%3E%3Cpath d=%22M24 8h16l-8 12z%22 fill=%22%23F0C46A%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one calm column on phones, card grid + side drawer on desktop. Palette from the couple's swatch: cream ground, sage, mustard, charcoal. */
+:root{
+  --bg:#FBF0DC; --surface:#FFF9EE; --surface-2:#F4E6CA; --line:#E4D3B2;
+  --ink:#4C4544; --ink-soft:#756A66; --sage:#AAAA7A; --sage-ink:#6E6F45; --sage-tint:#E7E6CC;
+  --mustard:#F0C46A; --mustard-ink:#8A6418; --mustard-tint:#FBE3AE;
+  --btn-bg:#4C4544; --btn-fg:#FBF0DC; --danger:#A3473B; --shadow:0 10px 30px -12px rgba(76,69,68,.35);
+  --scrim:rgba(43,38,37,.55);
+  --f-display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --f-body:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#2A2524; --surface:#352F2D; --surface-2:#413937; --line:#544A47;
+  --ink:#FBF0DC; --ink-soft:#CDBFA8; --sage:#AAAA7A; --sage-ink:#C9C99D; --sage-tint:#3E3F30;
+  --mustard:#F0C46A; --mustard-ink:#F3CF85; --mustard-tint:#4A3D22;
+  --btn-bg:#F0C46A; --btn-fg:#2A2524; --danger:#E38B7E; --shadow:0 10px 30px -12px rgba(0,0,0,.6);
+  --scrim:rgba(0,0,0,.6); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#2A2524; --surface:#352F2D; --surface-2:#413937; --line:#544A47;
+  --ink:#FBF0DC; --ink-soft:#CDBFA8; --sage:#AAAA7A; --sage-ink:#C9C99D; --sage-tint:#3E3F30;
+  --mustard:#F0C46A; --mustard-ink:#F3CF85; --mustard-tint:#4A3D22;
+  --btn-bg:#F0C46A; --btn-fg:#2A2524; --danger:#E38B7E; --shadow:0 10px 30px -12px rgba(0,0,0,.6);
+  --scrim:rgba(0,0,0,.6); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+body.locked{overflow:hidden}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{text-wrap:balance;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--mustard-ink);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+
+/* Header */
+.top{padding-block:28px 8px;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-ink);font-weight:600}
+.top h1{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,6vw,44px);line-height:1.05;letter-spacing:-.01em}
+.top h1 em{font-style:italic;color:var(--mustard-ink)}
+.who{font-size:13px;color:var(--ink-soft);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.who .btn{padding:7px 12px;font-size:13px}
+
+/* Summary */
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-block:16px 18px}
+.summary div{background:var(--surface);padding:12px 14px;min-width:0}
+.summary b{display:block;font-size:20px;font-weight:700;line-height:1.2}
+.summary span{font-size:12px;color:var(--ink-soft)}
+@media (max-width:560px){.summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Tabs + toolbar */
+.tabs{display:flex;gap:4px;padding:4px;background:var(--surface-2);border-radius:999px;width:max-content;max-width:100%}
+.tabs button{border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:600;font-size:14px;color:var(--ink-soft)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-block:14px 10px}
+.search{flex:1 1 220px;min-width:0;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 12px}
+.search input{border:0;background:transparent;outline:none;padding:11px 0;width:100%;min-width:0}
+.toolbar select{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px;scrollbar-width:thin}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500;color:var(--ink-soft);white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip small{opacity:.7;margin-left:4px}
+
+/* Notices */
+.note{border:1px dashed var(--line);border-radius:var(--r);padding:12px 14px;font-size:14px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.note.warn{border-style:solid;background:var(--mustard-tint);color:var(--ink);border-color:transparent}
+
+/* Vendor cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+@media (max-width:420px){.grid{grid-template-columns:1fr}}
+.card{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:72px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.card:focus-visible{outline:2px solid var(--mustard-ink);outline-offset:2px}
+.thumb{width:72px;height:72px;border-radius:10px;background:var(--surface-2);overflow:hidden;display:grid;place-items:center;color:var(--sage-ink);font-family:var(--f-display);font-size:26px}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.card .meta{min-width:0;display:flex;flex-direction:column;gap:2px}
+.cat{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-ink);font-weight:600}
+.card h3{font-size:16px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.card .price{font-size:14px;font-weight:600}
+.card .sub{font-size:13px;color:var(--ink-soft);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st-baru{background:var(--surface-2);color:var(--ink-soft)}
+.st-nego{background:var(--mustard-tint);color:var(--mustard-ink)}
+.st-kandidat{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.st-deal{background:var(--sage);color:#2A2524}
+.st-batal{background:transparent;color:var(--ink-soft);text-decoration:line-through}
+.ex-tag{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--mustard-ink);border:1px solid var(--mustard);border-radius:4px;padding:0 5px}
+.empty{grid-column:1/-1;text-align:center;padding:40px 16px;color:var(--ink-soft);border:1px dashed var(--line);border-radius:var(--r)}
+.empty h3{font-family:var(--f-display);font-weight:500;font-size:22px;color:var(--ink);margin-bottom:6px}
+
+/* Deal view */
+.deal-head{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-block:4px 16px}
+.deal-head div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;min-width:0}
+.deal-head b{display:block;font-size:18px}
+.deal-head span{font-size:12px;color:var(--ink-soft)}
+@media (max-width:560px){.deal-head{grid-template-columns:1fr}}
+.event{margin-bottom:22px}
+.event-title{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:6px}
+.event-title h2{font-family:var(--f-display);font-weight:500;font-size:24px}
+.event-title span{font-size:13px;color:var(--ink-soft)}
+.drow{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:10px 4px;border-bottom:1px solid var(--line);width:100%}
+.drow:hover{background:var(--surface)}
+.drow .r{text-align:right}
+.drow small{color:var(--ink-soft);font-size:12px}
+.missing{font-size:13px;color:var(--ink-soft);margin-top:8px}
+.missing b{color:var(--ink)}
+
+/* FAB */
+.fab{position:fixed;right:max(16px,calc(env(safe-area-inset-right,0px) + 16px));bottom:calc(env(safe-area-inset-bottom,0px) + 18px);z-index:20;border:0;background:var(--btn-bg);color:var(--btn-fg);font-weight:700;padding:14px 20px;border-radius:999px;box-shadow:var(--shadow);display:flex;gap:8px;align-items:center}
+
+/* Buttons */
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink)}
+.btn.primary{background:var(--btn-bg);color:var(--btn-fg);border-color:transparent}
+.btn.sage{background:var(--sage);color:#2A2524;border-color:transparent}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger);background:transparent}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.pick{position:relative;overflow:hidden;cursor:pointer}
+.pick input[type="file"]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:100px;z-index:1}
+.pick:focus-within{outline:2px solid var(--mustard-ink);outline-offset:2px}
+.btn svg{width:16px;height:16px;flex:none}
+
+/* Sheets */
+.overlay{position:fixed;inset:0;z-index:40;background:var(--scrim);display:flex;justify-content:flex-end;align-items:stretch}
+.panel{background:var(--bg);width:min(560px,100%);height:100%;overflow-y:auto;overscroll-behavior:contain;
+  padding-top:calc(env(safe-area-inset-top,0px) + 12px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 32px);
+  padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));
+  box-shadow:var(--shadow);animation:slide .22s ease}
+@keyframes slide{from{transform:translateX(24px);opacity:.6}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.panel{animation:none}.card{transition:none}}
+.panel-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;position:sticky;top:-12px;background:var(--bg);padding-block:8px;z-index:2}
+.icon-btn{border:0;background:var(--surface-2);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none}
+.icon-btn svg{width:18px;height:18px}
+.d-head{padding-block:8px 14px}
+.d-head h2{font-family:var(--f-display);font-weight:500;font-size:30px;line-height:1.1;margin-block:4px 8px;overflow-wrap:anywhere}
+.d-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.sec{margin-bottom:22px}
+.sec-title{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.sec-title h3{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--sage-ink);font-weight:700}
+.sec-title small{font-size:12px;color:var(--ink-soft)}
+.kv{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.kv dt{color:var(--ink-soft);font-size:13px}
+.kv dd{margin:0;font-weight:500;overflow-wrap:anywhere;white-space:pre-wrap}
+@media (max-width:400px){.kv{grid-template-columns:1fr}.kv dt{margin-top:4px}}
+.ig-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:12px}
+.ig-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.ig-handle{display:flex;align-items:center;gap:10px;min-width:0}
+.ig-dot{width:40px;height:40px;border-radius:50%;flex:none;background:conic-gradient(from 200deg,var(--mustard),var(--sage),var(--mustard));display:grid;place-items:center}
+.ig-dot span{width:34px;height:34px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-family:var(--f-display);font-size:16px;overflow:hidden}
+.ig-dot img{width:100%;height:100%;object-fit:cover}
+.import{background:var(--mustard-tint);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px}
+.import b{font-size:14px}
+.import p{margin:0;font-size:13px;color:var(--ink-soft)}
+.import .st{font-size:13px;display:flex;gap:8px;align-items:center;color:var(--ink)}
+.import .st.err{color:var(--danger)}
+.ig-fields{display:flex;flex-direction:column;gap:10px;border:1px solid var(--line);border-radius:var(--r);padding:12px}
+.ig-fields > b{font-size:13px}
+.row3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ig-handle b{display:block;overflow-wrap:anywhere}
+.ig-handle small{color:var(--ink-soft);font-size:12px}
+.strip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}
+.strip button{flex:0 0 auto;width:132px;aspect-ratio:4/5;max-width:100%;border:0;padding:0;border-radius:10px;overflow:hidden;background:var(--surface-2);scroll-snap-align:start}
+.strip img{width:100%;height:100%;object-fit:cover;display:block}
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.file{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:0;overflow:hidden;text-align:left;display:flex;flex-direction:column;min-width:0}
+.file .fp{aspect-ratio:1;max-width:100%;background:var(--surface-2);display:grid;place-items:center;overflow:hidden}
+.file .fp img{width:100%;height:100%;object-fit:cover}
+.file .pdf{font-weight:800;font-size:13px;letter-spacing:.08em;color:var(--btn-fg);background:var(--danger);padding:4px 8px;border-radius:4px}
+.file span{font-size:12px;padding:6px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.muted{color:var(--ink-soft);font-size:14px}
+.deal-box{background:var(--sage-tint);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px}
+.deal-box .tags{display:flex;gap:6px;flex-wrap:wrap}
+.confirm{background:var(--surface-2);border-radius:12px;padding:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+/* Forms */
+.form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label,.lbl{font-size:13px;font-weight:600}
+.field small{color:var(--ink-soft);font-size:12px}
+.field input,.field select,.field textarea{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
+.field textarea{min-height:84px;resize:vertical}
+.row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:400px){.row2{grid-template-columns:1fr}}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:500;background:var(--surface);cursor:pointer}
+.seg input{accent-color:var(--sage-ink)}
+.seg label:has(input:checked){background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.drop{border:1.5px dashed var(--sage);border-radius:var(--r);padding:14px;background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.drop.over{background:var(--sage-tint)}
+.drop-head{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.drop-head b{font-size:14px}
+.drop-head small{display:block;color:var(--ink-soft);font-size:12px;font-weight:400}
+.uplist{display:flex;flex-direction:column;gap:6px}
+.up{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--bg);border-radius:8px;padding:6px}
+.up .ic{width:40px;height:40px;border-radius:6px;overflow:hidden;background:var(--surface-2);display:grid;place-items:center;font-size:10px;font-weight:800}
+.up .ic img{width:100%;height:100%;object-fit:cover}
+.up span{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.up small{display:block;font-size:11px;color:var(--ink-soft)}
+.up.err small{color:var(--danger)}
+.form-foot{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;position:sticky;bottom:-32px;background:var(--bg);padding-block:12px;border-top:1px solid var(--line)}
+.err-msg{color:var(--danger);font-size:13px}
+
+/* Viewer */
+.viewer{position:fixed;inset:0;z-index:60;background:rgba(20,17,16,.94);display:flex;flex-direction:column;color:#FBF0DC}
+.v-bar{display:flex;align-items:center;gap:10px;justify-content:space-between;
+  padding-top:calc(env(safe-area-inset-top,0px) + 10px);padding-bottom:10px;
+  padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px))}
+.v-bar .t{min-width:0;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v-bar .t small{display:block;opacity:.65;font-size:12px}
+.v-bar .acts{display:flex;gap:8px;flex:none}
+.v-btn{border:1px solid rgba(251,240,220,.25);background:transparent;color:#FBF0DC;border-radius:999px;height:38px;min-width:38px;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;font-size:13px;font-weight:600}
+.v-btn svg{width:18px;height:18px}
+.v-body{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 16px)}
+.v-body img{max-width:100%;height:auto;margin:auto;display:block;border-radius:4px;cursor:zoom-in}
+.v-body.zoom img{max-width:none;width:180%;cursor:zoom-out}
+.v-pages{display:flex;flex-direction:column;gap:10px;align-items:center;width:100%;max-width:900px}
+.v-pages canvas{width:100%;height:auto;background:#fff;border-radius:3px}
+.v-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;background:rgba(20,17,16,.55)}
+.v-prev{left:max(10px,env(safe-area-inset-left,0px))}
+.v-next{right:max(10px,env(safe-area-inset-right,0px))}
+.v-msg{margin:auto;text-align:center;max-width:340px;font-size:14px;opacity:.85;display:flex;flex-direction:column;gap:12px;align-items:center}
+
+/* Instagram pop-up */
+.overlay.center{z-index:50;justify-content:center;align-items:center;padding:16px}
+.igp{background:var(--surface);width:min(470px,100%);max-height:min(88vh,820px);overflow-y:auto;overscroll-behavior:contain;border-radius:18px;box-shadow:var(--shadow);animation:pop .2s ease}
+@keyframes pop{from{transform:translateY(12px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.igp{animation:none}}
+@media (max-width:520px){
+  .overlay.center{align-items:flex-end;padding:calc(env(safe-area-inset-top,0px) + 24px) 0 0}
+  .igp{width:100%;max-height:100%;border-radius:18px 18px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}}
+.igp-bar{position:sticky;top:0;z-index:2;background:var(--surface);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 10px 16px;border-bottom:1px solid var(--line)}
+.igp-bar b{display:flex;align-items:center;gap:8px;font-size:16px;min-width:0;overflow-wrap:anywhere}
+.igp-bar b svg{width:18px;height:18px;flex:none}
+.igp-prof{display:grid;grid-template-columns:86px minmax(0,1fr);gap:18px;align-items:center;padding:18px 16px 10px}
+.igp-ava{width:86px;height:86px;border-radius:50%;background:conic-gradient(from 210deg,var(--mustard),var(--sage),var(--mustard-ink),var(--mustard));display:grid;place-items:center}
+.igp-ava span{width:78px;height:78px;border-radius:50%;background:var(--surface);border:3px solid var(--surface);display:grid;place-items:center;font-family:var(--f-display);font-size:34px;overflow:hidden}
+.igp-ava img{width:100%;height:100%;object-fit:cover}
+.igp-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));text-align:center;gap:4px}
+.igp-stats b{display:block;font-size:16px;line-height:1.25}
+.igp-stats span{font-size:12px;color:var(--ink-soft)}
+.igp-bio{padding:0 16px;display:flex;flex-direction:column;gap:1px;font-size:14px}
+.igp-bio .cat{font-size:11px}
+.igp-bio p{margin:4px 0 0;white-space:pre-wrap;color:var(--ink-soft)}
+.igp-acts{display:flex;gap:8px;padding:14px 16px;flex-wrap:wrap}
+.igp-acts .btn{flex:1 1 auto;justify-content:center}
+.igp-tab{display:flex;align-items:center;justify-content:center;gap:6px;border-top:1px solid var(--line);padding:10px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.igp-tab svg{width:14px;height:14px}
+.igp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}
+.igp-grid button{border:0;padding:0;aspect-ratio:1;max-width:100%;background:var(--surface-2);overflow:hidden}
+.igp-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .15s}
+.igp-grid button:hover img{opacity:.85}
+.igp-empty{padding:24px 16px;text-align:center}
+.igp-foot{font-size:12px;color:var(--ink-soft);padding:12px 16px 16px;margin:0}
+
+/* Toast */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 84px);z-index:80;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:14px;font-weight:600;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:sp .8s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Wedding Vendor Tracker</div>
+      <h1>All <em>For</em> You</h1>
+    </div>
+    <div class="who" id="who"><button class="btn ghost" id="loginBtn" hidden>Masuk untuk edit</button></div>
+  </header>
+
+  <section class="summary" id="summary" aria-label="Ringkasan">
+    <div><b class="num" id="sTotal">–</b><span>Vendor dicatat</span></div>
+    <div><b class="num" id="sKandidat">–</b><span>Kandidat kuat</span></div>
+    <div><b class="num" id="sDeal">–</b><span>Sudah deal</span></div>
+    <div><b class="num" id="sNilai">–</b><span>Total nilai deal</span></div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tabAll" aria-selected="true">Semua vendor</button>
+    <button role="tab" id="tabDeal" aria-selected="false">Sudah deal</button>
+  </div>
+
+  <div id="notices"></div>
+
+  <section id="viewAll">
+    <div class="toolbar">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Cari nama vendor, IG, atau catatan" aria-label="Cari vendor">
+      </div>
+      <select id="fStatus" aria-label="Filter status">
+        <option value="all">Semua status</option>
+        <option value="baru">Baru dihubungi</option>
+        <option value="nego">Lagi nego</option>
+        <option value="kandidat">Kandidat kuat</option>
+        <option value="deal">Deal</option>
+        <option value="batal">Tidak jadi</option>
+      </select>
+      <select id="fSort" aria-label="Urutkan">
+        <option value="status">Urut: status</option>
+        <option value="new">Urut: terbaru</option>
+        <option value="cheap">Urut: harga termurah</option>
+      </select>
+    </div>
+    <div class="chips" id="chips" role="toolbar" aria-label="Kategori"></div>
+    <div class="grid" id="list" aria-live="polite"></div>
+  </section>
+
+  <section id="viewDeal" hidden></section>
+</div>
+
+<button class="fab" id="fab" hidden>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+  Tambah vendor
+</button>
+
+<div class="overlay" id="detail" hidden><div class="panel" id="detailPanel" role="dialog" aria-modal="true" aria-label="Detail vendor"></div></div>
+<div class="overlay" id="formWrap" hidden><div class="panel" id="formPanel" role="dialog" aria-modal="true" aria-label="Form vendor"></div></div>
+<div class="overlay center" id="igPop" hidden><div class="igp" id="igPanel" role="dialog" aria-modal="true" aria-label="Profil Instagram vendor"></div></div>
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Lihat file"></div>
+<div class="overlay center" id="loginWrap" hidden><div class="igp" role="dialog" aria-modal="true" aria-label="Masuk">
+  <div class="igp-bar"><b>Masuk untuk edit</b><button class="icon-btn" data-act="login-close" aria-label="Tutup"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <form class="form" id="loginForm" style="padding:16px">
+    <p class="muted" style="margin:0">Keluarga dan WO cukup membuka link ini untuk melihat. Login hanya untuk yang menambah atau mengubah vendor.</p>
+    <div class="field"><label for="lEmail">Email</label><input id="lEmail" type="email" autocomplete="email" required></div>
+    <div class="field"><label for="lPass">Password</label><input id="lPass" type="password" autocomplete="current-password" required></div>
+    <p class="err-msg" id="lErr" hidden></p>
+    <button class="btn primary" type="submit" id="lBtn" style="justify-content:center">Masuk</button>
+  </form>
+</div></div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.js"></script>
+<script>
+(() => {
+"use strict";
+
+/* ---------- constants ---------- */
+const CATS = ["Venue","Katering","MUA & Attire","Dekorasi","Foto & Video","Entertainment","MC","Undangan","Souvenir","Seserahan & Hantaran","Wedding Organizer","Cincin","Lainnya"];
+const STATUS = {
+  baru:{label:"Baru dihubungi",rank:2},
+  nego:{label:"Lagi nego",rank:1},
+  kandidat:{label:"Kandidat kuat",rank:0},
+  deal:{label:"Deal",rank:-1},
+  batal:{label:"Tidak jadi",rank:3}
+};
+const EVENTS = {lamaran:"Lamaran / Engagement", nikah:"Pernikahan (Akad & Resepsi)"};
+const ICON = {
+  close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  ig:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>',
+  edit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
+  ring:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="15" r="6"/><path d="M9 4h6l-3 5z"/></svg>',
+  ext:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg>',
+  left:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg>',
+  right:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 5l7 7-7 7"/></svg>',
+  up:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>'
+};
+
+/* ---------- state ---------- */
+const S = { vendors:[], loaded:false, stale:false, err:null, tab:"all", cat:"Semua", status:"all", sort:"status", q:"",
+  db:null, assets:null, canWrite:true, dbMissing:false, openId:null, confirmDelete:false, dealEditing:false, confirmExamples:false };
+let F = null; // form state
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const nf = new Intl.NumberFormat("id-ID");
+const rp = n => (n || n === 0) && !isNaN(n) ? "Rp " + nf.format(Math.round(n)) : "–";
+function rpShort(n){
+  if(!n && n!==0) return "";
+  const f = v => v.toLocaleString("id-ID",{maximumFractionDigits:1});
+  if(n >= 1e9) return "Rp " + f(n/1e9) + " M";
+  if(n >= 1e6) return "Rp " + f(n/1e6) + " jt";
+  if(n >= 1e3) return "Rp " + f(n/1e3) + " rb";
+  return "Rp " + n;
+}
+const digits = v => { const d = String(v ?? "").replace(/\D/g,""); return d ? Number(d) : null; };
+function priceRange(v){
+  const a=v.priceMin, b=v.priceMax;
+  if(a && b && a!==b) return rpShort(a) + " – " + rpShort(b).replace("Rp ","");
+  if(a || b) return rpShort(a||b);
+  return "Harga belum ada";
+}
+function igHandle(raw){
+  if(!raw) return "";
+  let s = String(raw).trim();
+  const m = s.match(/instagram\.com\/([A-Za-z0-9._]+)/i);
+  if(m) s = m[1];
+  return s.replace(/^@/,"").replace(/[^A-Za-z0-9._]/g,"");
+}
+const igUrl = h => "https://www.instagram.com/" + encodeURIComponent(h) + "/";
+function waUrl(p){
+  let d = String(p||"").replace(/\D/g,"");
+  if(!d) return "";
+  if(d.startsWith("0")) d = "62" + d.slice(1);
+  return "https://wa.me/" + d;
+}
+const CFG = window.ALL_FOR_YOU_CONFIG || {};
+const BUCKET = CFG.bucket || "vendor-files";
+const blob = id => String(CFG.supabaseUrl || "").replace(/\/$/, "") + "/storage/v1/object/public/" + BUCKET + "/" + id;
+const isPdf = f => f && (f.type === "application/pdf" || /\.pdf$/i.test(f.name||""));
+const kindOf = f => f.kind==="portfolio" || f.kind==="avatar" ? f.kind : "doc";
+function fmtDate(s){ if(!s) return ""; const d = new Date(s); return isNaN(d) ? s : d.toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"}); }
+function toast(msg, ms=2600){ const t=$("toast"); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true, ms); }
+function lockScroll(){ const any = !$("detail").hidden || !$("formWrap").hidden || !$("viewer").hidden || !$("igPop").hidden || !$("loginWrap").hidden; document.body.classList.toggle("locked", any); }
+const byId = id => S.vendors.find(v => v.id === id);
+
+/* ---------- data layer: Supabase ---------- */
+let sb = null;
+const COLS = {               // app field -> table column
+  category:"category", name:"name", ig:"ig", phone:"phone", priceMin:"price_min", priceMax:"price_max",
+  priceNote:"price_note", location:"location", contactName:"contact_name", notes:"notes", status:"status",
+  igName:"ig_name", igCategory:"ig_category", igPosts:"ig_posts", igFollowers:"ig_followers", igBio:"ig_bio",
+  dealFor:"deal_for", dealPrice:"deal_price", dpAmount:"dp_amount", dealDate:"deal_date", dealNote:"deal_note",
+  files:"files", isExample:"is_example", createdAt:"created_at", updatedAt:"updated_at"
+};
+function fromRow(r){
+  const v = { id:r.id };
+  for(const [k,c] of Object.entries(COLS)) if(r[c] !== null && r[c] !== undefined) v[k] = r[c];
+  v.files = Array.isArray(r.files) ? r.files : [];
+  v.dealFor = Array.isArray(r.deal_for) ? r.deal_for : [];
+  if(v.category==="MUA & Hairdo" || v.category==="Busana & Kebaya") v.category = "MUA & Attire";
+  return v;
+}
+function toRow(v){
+  const r = {};
+  for(const [k,c] of Object.entries(COLS)){
+    if(k==="createdAt" || k==="updatedAt") continue;     // set by the database
+    let val = v[k];
+    if(val === undefined || val === "") val = null;
+    if(k==="dealDate" && !val) val = null;
+    r[c] = val;
+  }
+  r.files = Array.isArray(v.files) ? v.files : [];
+  r.deal_for = Array.isArray(v.dealFor) ? v.dealFor : [];
+  r.is_example = !!v.isExample;
+  r.status = v.status || "baru";
+  return r;
+}
+
+async function boot(){
+  render();
+  if(!window.supabase || !CFG.supabaseUrl || !CFG.supabaseAnonKey || /GANTI/.test(CFG.supabaseUrl + CFG.supabaseAnonKey)){
+    S.dbMissing = true; S.loaded = true; S.canWrite = false; render(); return;
+  }
+  sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey);
+  S.db = sb; S.canWrite = false;
+  renderWho();
+  // defer: calling Supabase inside this callback can deadlock the auth client
+  sb.auth.onAuthStateChange((_evt, session) => { setTimeout(() => refreshAuth(session), 0); });
+  const { data:{ session } } = await sb.auth.getSession();
+  await refreshAuth(session);
+  await loadVendors();
+  sb.channel("vendors-live")
+    .on("postgres_changes", { event:"*", schema:"public", table:"vendors" }, () => scheduleLoad())
+    .subscribe();
+  document.addEventListener("visibilitychange", () => { if(!document.hidden) scheduleLoad(); });
+}
+let authSeq = 0;
+async function refreshAuth(session){
+  const seq = ++authSeq;
+  const email = session?.user?.email || "";
+  let editor = false;
+  if(email){
+    const { data, error } = await sb.rpc("is_editor");
+    editor = !error && data === true;
+  }
+  if(seq !== authSeq) return;
+  S.email = email; S.canWrite = editor;
+  S.assets = editor ? storageApi : null;
+  renderWho(); render();
+  if(S.openId) renderDetail();
+}
+function renderWho(){
+  const w = $("who");
+  if(!S.email){ w.innerHTML = `<button class="btn ghost" data-act="login-open">Masuk untuk edit</button>`; return; }
+  w.innerHTML = `<span>${esc(S.email)}${S.canWrite ? "" : " · hanya lihat"}</span><button class="btn ghost" data-act="logout">Keluar</button>`;
+}
+let loadTimer = null;
+function scheduleLoad(){ clearTimeout(loadTimer); loadTimer = setTimeout(loadVendors, 300); }
+async function loadVendors(){
+  const slow = setTimeout(() => { S.stale = true; render(); }, 10000);
+  const { data, error } = await sb.from("vendors").select("*").order("updated_at", { ascending:false });
+  clearTimeout(slow);
+  S.loaded = true;
+  if(error){ S.err = error; render(); return; }
+  S.err = null; S.stale = false;
+  S.vendors = (data || []).map(fromRow);
+  render();
+  if(S.openId && !S.dealEditing) renderDetail();
+  if(S.openId && !$("igPop").hidden){ const v = byId(S.openId); if(v) renderIg(v); }
+}
+async function saveVendor(id, data){
+  const row = toRow(data);
+  if(id){
+    const { error } = await sb.from("vendors").update(row).eq("id", id);
+    if(error) throw error;
+    await loadVendors(); return id;
+  }
+  const { data:ins, error } = await sb.from("vendors").insert(row).select("id").single();
+  if(error) throw error;
+  await loadVendors(); return ins.id;
+}
+async function removeVendorRow(id){
+  const { error } = await sb.from("vendors").delete().eq("id", id);
+  if(error) throw error;
+}
+const storageApi = {
+  async upload(b, { type }){
+    const ext = type==="application/pdf" ? "pdf" : type==="image/png" ? "png" : type==="image/webp" ? "webp" : "jpg";
+    const base = (b.name || "file").replace(/\.[^.]+$/, "").replace(/[^\w\-]+/g, "_").slice(0, 60) || "file";
+    const path = `${(crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2))}/${base}.${ext}`;
+    const { error } = await sb.storage.from(BUCKET).upload(path, b, { contentType:type, upsert:false, cacheControl:"31536000" });
+    if(error){
+      const m = String(error.message || "").toLowerCase();
+      throw { code: m.includes("size") ? "too_large" : m.includes("mime") ? "unsupported_type" : "upstream_error", message:error.message };
+    }
+    return { id:path, url:blob(path), sizeBytes:b.size, contentType:type };
+  },
+  async delete(path){ await sb.storage.from(BUCKET).remove([path]); return { deleted:true }; }
+};
+
+/* ---------- main render ---------- */
+function render(){
+  const V = S.vendors;
+  const deals = V.filter(v => v.status === "deal");
+  $("sTotal").textContent = S.loaded ? V.length : "–";
+  $("sKandidat").textContent = S.loaded ? V.filter(v=>v.status==="kandidat").length : "–";
+  $("sDeal").textContent = S.loaded ? deals.length : "–";
+  $("sNilai").textContent = S.loaded ? (deals.reduce((a,v)=>a+(v.dealPrice||0),0) ? rpShort(deals.reduce((a,v)=>a+(v.dealPrice||0),0)) : "Rp 0") : "–";
+  $("fab").hidden = !(S.db && S.canWrite);
+  $("tabAll").setAttribute("aria-selected", S.tab==="all");
+  $("tabDeal").setAttribute("aria-selected", S.tab==="deal");
+  $("viewAll").hidden = S.tab!=="all";
+  $("viewDeal").hidden = S.tab!=="deal";
+  renderNotices();
+  if(S.tab==="all"){ renderChips(); renderList(); } else renderDeal();
+}
+
+function renderNotices(){
+  let h = "";
+  if(S.dbMissing) h += `<div class="note warn">Aplikasi belum tersambung ke database. Isi <b>config.js</b> dengan URL dan anon key Supabase, lalu deploy ulang.</div>`;
+  else if(S.err) h += `<div class="note warn">Data tidak bisa dimuat (${esc(S.err.message || "koneksi bermasalah")}). Muat ulang halaman sebentar lagi.</div>`;
+  else if(S.stale) h += `<div class="note">Koneksi ke data masih lambat. Yang tampil mungkin belum yang terbaru.</div>`;
+  if(S.email && !S.canWrite) h += `<div class="note">Akun ini belum terdaftar sebagai editor, jadi hanya bisa melihat. Tambahkan emailnya ke tabel <b>editors</b> di Supabase.</div>`;
+  const ex = S.vendors.filter(v=>v.isExample);
+  if(ex.length && S.canWrite){
+    h += `<div class="note"><span>Ada ${ex.length} vendor <b>contoh</b> untuk melihat cara kerja aplikasi.</span>` +
+      (S.confirmExamples
+        ? `<span style="display:flex;gap:6px"><button class="btn danger" data-act="ex-del">Ya, hapus contoh</button><button class="btn ghost" data-act="ex-cancel">Batal</button></span>`
+        : `<button class="btn" data-act="ex-ask">Hapus semua contoh</button>`) + `</div>`;
+  }
+  $("notices").innerHTML = h;
+}
+
+function renderChips(){
+  const counts = {}; S.vendors.forEach(v => counts[v.category] = (counts[v.category]||0)+1);
+  const used = CATS.filter(c => counts[c]);
+  const list = ["Semua", ...used];
+  if(S.cat!=="Semua" && !used.includes(S.cat)) S.cat = "Semua";
+  $("chips").innerHTML = list.map(c => `<button class="chip" data-cat="${esc(c)}" aria-pressed="${S.cat===c}">${esc(c)}<small>${c==="Semua"?S.vendors.length:counts[c]}</small></button>`).join("");
+}
+
+function filtered(){
+  const q = S.q.trim().toLowerCase();
+  let L = S.vendors.filter(v =>
+    (S.cat==="Semua" || v.category===S.cat) &&
+    (S.status==="all" || v.status===S.status) &&
+    (!q || [v.name,v.ig,v.notes,v.location,v.category,v.contactName].join(" ").toLowerCase().includes(q)));
+  const t = v => v.updatedAt || v.createdAt || "";
+  if(S.sort==="new") L.sort((a,b)=> t(b).localeCompare(t(a)));
+  else if(S.sort==="cheap") L.sort((a,b)=> (a.priceMin||a.priceMax||Infinity)-(b.priceMin||b.priceMax||Infinity));
+  else L.sort((a,b)=> (STATUS[a.status]?.rank ?? 9)-(STATUS[b.status]?.rank ?? 9) || t(b).localeCompare(t(a)));
+  return L;
+}
+
+function thumbFor(v){
+  const fs = v.files||[];
+  const f = fs.find(f => f.kind==="avatar") || fs.find(f => f.kind==="portfolio" && !isPdf(f)) || fs.find(f => !isPdf(f));
+  return f ? `<img src="${blob(esc(f.id))}" alt="" loading="lazy" onerror="this.remove()">` : esc((v.name||"?").trim().charAt(0).toUpperCase());
+}
+function pill(st){ const s = STATUS[st] || STATUS.baru; return `<span class="pill st-${esc(st||"baru")}">${s.label}</span>`; }
+
+function renderList(){
+  const el = $("list");
+  if(!S.loaded){ el.innerHTML = `<div class="empty"><span class="spin"></span><p>Memuat daftar vendor…</p></div>`; return; }
+  if(!S.vendors.length){
+    el.innerHTML = `<div class="empty"><h3>Belum ada vendor</h3><p>Setiap kali dapat info harga dari WhatsApp, catat di sini lewat tombol <b>Tambah vendor</b>, lalu unggah foto pricelist atau PDF-nya.</p></div>`; return;
+  }
+  const L = filtered();
+  if(!L.length){ el.innerHTML = `<div class="empty"><h3>Tidak ada yang cocok</h3><p>Coba ubah kategori, status, atau kata pencarian.</p></div>`; return; }
+  el.innerHTML = L.map(v => {
+    const n = (v.files||[]).length;
+    const h = igHandle(v.ig);
+    const events = v.status==="deal" && v.dealFor?.length ? " · " + v.dealFor.map(e=>e==="lamaran"?"Lamaran":"Nikah").join(" & ") : "";
+    return `<button class="card" data-open="${esc(v.id)}">
+      <div class="thumb">${thumbFor(v)}</div>
+      <div class="meta">
+        <div class="cat">${esc(v.category||"Lainnya")}${v.isExample?' <span class="ex-tag">Contoh</span>':''}</div>
+        <h3>${esc(v.name||"Tanpa nama")}</h3>
+        <div class="price num">${v.status==="deal" && v.dealPrice ? "Deal " + rpShort(v.dealPrice) : esc(priceRange(v))}</div>
+        <div class="sub">${pill(v.status)}<span>${events.slice(3)}</span>${h?`<span>@${esc(h)}</span>`:""}${n?`<span>${n} file</span>`:""}</div>
+      </div></button>`;
+  }).join("");
+}
+
+function renderDeal(){
+  const el = $("viewDeal");
+  const deals = S.vendors.filter(v => v.status==="deal");
+  const tot = deals.reduce((a,v)=>a+(v.dealPrice||0),0);
+  const dp = deals.reduce((a,v)=>a+(v.dpAmount||0),0);
+  let h = `<div class="deal-head">
+    <div><b class="num">${rp(tot)}</b><span>Total harga deal (${deals.length} vendor)</span></div>
+    <div><b class="num">${rp(dp)}</b><span>Sudah dibayar (DP)</span></div>
+    <div><b class="num">${rp(Math.max(0,tot-dp))}</b><span>Sisa pelunasan</span></div></div>`;
+  if(!deals.length){
+    h += `<div class="empty"><h3>Belum ada vendor yang deal</h3><p>Buka detail vendor lalu tekan <b>Tandai deal</b> setelah sepakat harga untuk lamaran atau pernikahan.</p></div>`;
+  }
+  for(const ev of ["lamaran","nikah"]){
+    const L = deals.filter(v => (v.dealFor||[]).includes(ev)).sort((a,b)=> CATS.indexOf(a.category)-CATS.indexOf(b.category));
+    const sum = L.reduce((a,v)=>a+(v.dealPrice||0),0);
+    const have = new Set(L.map(v=>v.category));
+    const core = ev==="nikah" ? ["Venue","Katering","MUA & Attire","Dekorasi","Foto & Video","Entertainment","MC","Undangan","Souvenir"] : ["Venue","Katering","MUA & Attire","Dekorasi","Foto & Video","Seserahan & Hantaran"];
+    const miss = core.filter(c => !have.has(c));
+    h += `<section class="event"><div class="event-title"><h2>${EVENTS[ev]}</h2><span class="num">${L.length} vendor · ${rp(sum)}</span></div>`;
+    h += L.length ? L.map(v => `<button class="drow" data-open="${esc(v.id)}">
+        <div><div class="cat">${esc(v.category)}</div><b>${esc(v.name)}</b>${v.dealDate?`<br><small>Deal ${esc(fmtDate(v.dealDate))}</small>`:""}</div>
+        <div class="r num"><b>${rp(v.dealPrice)}</b><br><small>DP ${rp(v.dpAmount||0)} · sisa ${rp(Math.max(0,(v.dealPrice||0)-(v.dpAmount||0)))}</small></div>
+      </button>`).join("") : `<p class="muted">Belum ada vendor yang deal untuk acara ini.</p>`;
+    if(miss.length) h += `<p class="missing">Belum ada deal untuk: <b>${miss.map(esc).join(", ")}</b></p>`;
+    h += `</section>`;
+  }
+  if(deals.some(v => (v.dealFor||[]).length===2)) h += `<p class="muted">Vendor yang dipakai untuk lamaran dan pernikahan muncul di kedua daftar, tapi hanya dihitung sekali di total atas.</p>`;
+  el.innerHTML = h;
+}
+
+/* ---------- detail ---------- */
+function openDetail(id){ S.openId = id; S.confirmDelete=false; S.dealEditing=false; $("detail").hidden=false; renderDetail(); lockScroll(); $("detailPanel").scrollTop=0; }
+function closeDetail(){ S.openId=null; $("detail").hidden=true; lockScroll(); }
+
+function renderDetail(){
+  const v = byId(S.openId);
+  const P = $("detailPanel");
+  if(!v){ closeDetail(); return; }
+  const h = igHandle(v.ig);
+  const wa = waUrl(v.phone);
+  const files = v.files||[];
+  const port = files.filter(f => f.kind==="portfolio");
+  const docs = files.filter(f => kindOf(f)==="doc");
+  const ava = files.find(f => f.kind==="avatar");
+  const W = S.canWrite && S.db;
+  let o =`<div class="panel-bar"><span class="eyebrow">${esc(v.category||"Lainnya")}</span>
+    <button class="icon-btn" data-act="close-detail" aria-label="Tutup">${ICON.close}</button></div>
+    <div class="d-head">${v.isExample?'<span class="ex-tag">Contoh</span>':''}<h2>${esc(v.name)}</h2>${pill(v.status)}</div>
+    <div class="d-actions">
+      ${h?`<button class="btn" data-act="ig-open">${ICON.ig} Instagram</button>`:""}
+      ${wa?`<a class="btn" href="${wa}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>`:""}
+      ${W?`<button class="btn" data-act="edit">${ICON.edit} Ubah</button>`:""}
+      ${W && v.status!=="deal"?`<button class="btn sage" data-act="deal">${ICON.ring} Tandai deal</button>`:""}
+    </div>`;
+
+  // Deal block
+  if(v.status==="deal" && !S.dealEditing){
+    o += `<section class="sec"><div class="sec-title"><h3>Sudah deal</h3>${W?`<button class="btn ghost" data-act="deal">Ubah deal</button>`:""}</div>
+      <div class="deal-box">
+        <div class="tags">${(v.dealFor||[]).map(e=>`<span class="pill st-deal">${EVENTS[e]}</span>`).join("")}</div>
+        <dl class="kv" style="background:transparent;border:0;padding:0">
+          <dt>Harga deal</dt><dd class="num">${rp(v.dealPrice)}</dd>
+          <dt>DP dibayar</dt><dd class="num">${rp(v.dpAmount||0)}</dd>
+          <dt>Sisa</dt><dd class="num">${rp(Math.max(0,(v.dealPrice||0)-(v.dpAmount||0)))}</dd>
+          ${v.dealDate?`<dt>Tanggal deal</dt><dd>${esc(fmtDate(v.dealDate))}</dd>`:""}
+          ${v.dealNote?`<dt>Catatan bayar</dt><dd>${esc(v.dealNote)}</dd>`:""}
+        </dl></div></section>`;
+  }
+  if(S.dealEditing) o += dealForm(v);
+
+  // Info
+  o += `<section class="sec"><div class="sec-title"><h3>Informasi</h3></div><dl class="kv">
+    <dt>Kisaran harga</dt><dd class="num">${esc(v.priceMin||v.priceMax ? [v.priceMin?rp(v.priceMin):null, v.priceMax && v.priceMax!==v.priceMin?rp(v.priceMax):null].filter(Boolean).join(" – ") : "Belum ada")}</dd>
+    ${v.priceNote?`<dt>Isi paket</dt><dd>${esc(v.priceNote)}</dd>`:""}
+    ${v.location?`<dt>Lokasi</dt><dd>${esc(v.location)}</dd>`:""}
+    ${v.contactName||v.phone?`<dt>Kontak</dt><dd>${esc([v.contactName, v.phone].filter(Boolean).join(" · "))}</dd>`:""}
+    ${h?`<dt>Instagram</dt><dd>@${esc(h)}</dd>`:""}
+    ${v.notes?`<dt>Catatan</dt><dd>${esc(v.notes)}</dd>`:""}
+    <dt>Diperbarui</dt><dd>${esc(fmtDate(v.updatedAt||v.createdAt))}</dd>
+  </dl></section>`;
+
+  // Instagram / portfolio
+  o += `<section class="sec"><div class="sec-title"><h3>Portofolio</h3><small>${port.length} foto</small></div><div class="ig-box">`;
+  if(h) o += `<div class="ig-row"><div class="ig-handle"><div class="ig-dot"><span>${ava?`<img src="${blob(esc(ava.id))}" alt="">`:esc(h.charAt(0).toUpperCase())}</span></div><div><b>@${esc(h)}</b><small>Tampilan profil dan portofolio</small></div></div>
+      <button class="btn primary" data-act="ig-open">${ICON.ig} Lihat profil</button></div>`;
+  o += port.length
+    ? `<div class="strip">${port.map(f=>`<button data-view="${esc(f.id)}" aria-label="Lihat ${esc(f.name)}"><img src="${blob(esc(f.id))}" alt="" loading="lazy"></button>`).join("")}</div>`
+    : `<p class="muted">Belum ada foto portofolio. ${W?"Simpan screenshot hasil kerja vendor dari IG atau foto kiriman vendor lewat <b>Ubah</b>, supaya keluarga bisa lihat tanpa buka Instagram.":""}</p>`;
+  o += `</div></section>`;
+
+  // Docs
+  o += `<section class="sec"><div class="sec-title"><h3>Pricelist &amp; dokumen</h3><small>${docs.length} file</small></div>`;
+  o += docs.length ? `<div class="files">${docs.map(f => `<button class="file" data-view="${esc(f.id)}">
+      <div class="fp">${isPdf(f)?'<span class="pdf">PDF</span>':`<img src="${blob(esc(f.id))}" alt="" loading="lazy">`}</div>
+      <span>${esc(f.name)}</span></button>`).join("")}</div>`
+    : `<p class="muted">Belum ada pricelist. ${W?"Unggah JPG atau PDF dari WhatsApp lewat <b>Ubah</b>.":""}</p>`;
+  o += `</section>`;
+
+  if(W){
+    o += `<section class="sec">${S.confirmDelete
+      ? `<div class="confirm"><span>Hapus <b>${esc(v.name)}</b> beserta semua filenya? Ini tidak bisa dibatalkan.</span><button class="btn danger" data-act="del-yes">Ya, hapus</button><button class="btn ghost" data-act="del-no">Batal</button></div>`
+      : `<button class="btn danger" data-act="del-ask">Hapus vendor ini</button>`}</section>`;
+  }
+  P.innerHTML = o;
+}
+
+function dealForm(v){
+  const ev = v.dealFor || [];
+  return `<section class="sec"><div class="sec-title"><h3>Tandai deal</h3></div>
+  <form class="form deal-box" id="dealForm" style="background:var(--sage-tint)">
+    <div class="field"><span class="lbl">Untuk acara</span>
+      <div class="seg">
+        <label><input type="checkbox" name="ev" value="lamaran" ${ev.includes("lamaran")?"checked":""}> Lamaran / Engagement</label>
+        <label><input type="checkbox" name="ev" value="nikah" ${ev.includes("nikah")||!ev.length?"checked":""}> Pernikahan</label>
+      </div></div>
+    <div class="row2">
+      <div class="field"><label for="dPrice">Harga deal (Rp)</label><input id="dPrice" inputmode="numeric" value="${v.dealPrice?nf.format(v.dealPrice):(v.priceMin?nf.format(v.priceMin):"")}" data-money></div>
+      <div class="field"><label for="dDp">DP dibayar (Rp)</label><input id="dDp" inputmode="numeric" value="${v.dpAmount?nf.format(v.dpAmount):""}" data-money></div>
+    </div>
+    <div class="field"><label for="dDate">Tanggal deal</label><input id="dDate" type="date" value="${esc(v.dealDate||new Date().toISOString().slice(0,10))}"></div>
+    <div class="field"><label for="dNote">Catatan pembayaran</label><input id="dNote" value="${esc(v.dealNote||"")}" placeholder="Mis. pelunasan H-14, transfer ke BCA"></div>
+    <p class="err-msg" id="dErr" hidden></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn primary" type="submit">Simpan deal</button>
+      <button class="btn ghost" type="button" data-act="deal-cancel">Batal</button>
+      ${v.status==="deal"?`<button class="btn danger" type="button" data-act="deal-undo">Batalkan deal</button>`:""}
+    </div>
+  </form></section>`;
+}
+
+async function submitDeal(){
+  const v = byId(S.openId); if(!v) return;
+  const evs = [...document.querySelectorAll('#dealForm input[name="ev"]:checked')].map(i=>i.value);
+  const err = $("dErr");
+  if(!evs.length){ err.textContent = "Pilih minimal satu acara."; err.hidden=false; return; }
+  const price = digits($("dPrice").value);
+  if(!price){ err.textContent = "Isi harga deal."; err.hidden=false; return; }
+  const next = { ...strip(v), status:"deal", dealFor:evs, dealPrice:price, dpAmount:digits($("dDp").value)||0,
+    dealDate:$("dDate").value||"", dealNote:$("dNote").value.trim(), updatedAt:new Date().toISOString() };
+  try{ await saveVendor(v.id, next); S.dealEditing=false; toast("Deal tersimpan"); renderDetail(); }
+  catch(e){ err.textContent = "Belum tersimpan. Coba lagi sebentar."; err.hidden=false; }
+}
+async function undoDeal(){
+  const v = byId(S.openId); if(!v) return;
+  const next = { ...strip(v), status:"kandidat", dealFor:[], updatedAt:new Date().toISOString() };
+  try{ await saveVendor(v.id, next); S.dealEditing=false; toast("Deal dibatalkan, status jadi Kandidat kuat"); renderDetail(); }catch(e){ toast("Belum tersimpan. Coba lagi."); }
+}
+function strip(v){ const o = {...v}; delete o.id; return o; }
+
+async function deleteVendor(){
+  const v = byId(S.openId); if(!v) return;
+  try{
+    await removeVendorRow(v.id);
+    if(S.assets) for(const f of (v.files||[])) { try{ await S.assets.delete(f.id); }catch(e){} }
+    closeDetail(); await loadVendors(); toast("Vendor dihapus");
+  }catch(e){ toast("Gagal menghapus. Coba lagi."); }
+}
+
+/* ---------- form ---------- */
+function openForm(id){
+  const v = id ? byId(id) : null;
+  F = { id: v ? v.id : null, base: v ? strip(v) : {}, files: v ? [...(v.files||[])] : [], newIds: [], removed: [], uploading: 0 };
+  $("formWrap").hidden = false; renderForm(); lockScroll(); $("formPanel").scrollTop = 0;
+  setTimeout(()=>{ const n=$("vName"); if(n && !id) n.focus(); }, 50);
+}
+async function closeForm(saved){
+  if(!saved && F && S.assets){ for(const id of F.newIds){ try{ await S.assets.delete(id); }catch(e){} } }
+  F = null; $("formWrap").hidden = true; lockScroll();
+}
+function renderForm(){
+  const v = F.base;
+  const st = v.status || "baru";
+  $("formPanel").innerHTML = `
+  <div class="panel-bar"><span class="eyebrow">${F.id?"Ubah vendor":"Vendor baru"}</span>
+    <button class="icon-btn" data-act="close-form" aria-label="Tutup">${ICON.close}</button></div>
+  <form class="form" id="vForm" novalidate>
+    <div class="field"><label for="vCat">Kategori</label>
+      <select id="vCat">${CATS.map(c=>`<option ${ (v.category||"")===c?"selected":""}>${esc(c)}</option>`).join("")}</select></div>
+    <div class="field"><label for="vName">Nama vendor</label><input id="vName" value="${esc(v.name||"")}" placeholder="Mis. Rias Pengantin Sekar Ayu" autocomplete="off"></div>
+    <div class="row2">
+      <div class="field"><label for="vIg">Akun Instagram</label><input id="vIg" value="${esc(v.ig?("@"+igHandle(v.ig)):"")}" placeholder="@namavendor atau link IG" autocomplete="off"></div>
+      <div class="field"><label for="vPhone">No. WhatsApp</label><input id="vPhone" inputmode="tel" value="${esc(v.phone||"")}" placeholder="08xx xxxx xxxx"></div>
+    </div>
+    <div class="ig-fields"><b>Profil IG (tampil di pop-up Instagram)</b>
+      <div class="row2">
+        <div class="field"><label for="vIgName">Nama di IG</label><input id="vIgName" value="${esc(v.igName||"")}" placeholder="Mis. MUA MADIUN SURABAYA"></div>
+        <div class="field"><label for="vIgCat">Keterangan akun</label><input id="vIgCat" value="${esc(v.igCategory||"")}" placeholder="Mis. Make-up artist"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="vIgPosts">Jumlah post</label><input id="vIgPosts" value="${esc(v.igPosts||"")}" placeholder="948"></div>
+        <div class="field"><label for="vIgFol">Followers</label><input id="vIgFol" value="${esc(v.igFollowers||"")}" placeholder="35K"></div>
+      </div>
+      <div class="field"><label for="vIgBio">Bio</label><textarea id="vIgBio" placeholder="Bio dari profil IG vendor">${esc(v.igBio||"")}</textarea></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="vMin">Harga mulai (Rp)</label><input id="vMin" inputmode="numeric" value="${v.priceMin?nf.format(v.priceMin):""}" placeholder="5.000.000" data-money></div>
+      <div class="field"><label for="vMax">Harga sampai (Rp)</label><input id="vMax" inputmode="numeric" value="${v.priceMax?nf.format(v.priceMax):""}" placeholder="12.000.000" data-money></div>
+    </div>
+    <div class="field"><label for="vPkg">Isi paket / rincian harga</label><textarea id="vPkg" placeholder="Mis. Paket Gold: 2x makeup, hijab do, 1 asisten, free transport Madiun kota">${esc(v.priceNote||"")}</textarea></div>
+    <div class="row2">
+      <div class="field"><label for="vLoc">Lokasi</label><input id="vLoc" value="${esc(v.location||"")}" placeholder="Kota / alamat"></div>
+      <div class="field"><label for="vCp">Nama kontak</label><input id="vCp" value="${esc(v.contactName||"")}" placeholder="Mis. Mbak Rina (admin)"></div>
+    </div>
+    <div class="field"><span class="lbl">Status</span>
+      <div class="seg">${Object.entries(STATUS).filter(([k])=>k!=="deal" || st==="deal").map(([k,s])=>`<label><input type="radio" name="vSt" value="${k}" ${st===k?"checked":""}> ${s.label}</label>`).join("")}</div>
+      <small>Untuk status deal, simpan dulu lalu tekan <b>Tandai deal</b> di detail vendor.</small></div>
+    <div class="field"><label for="vNotes">Catatan</label><textarea id="vNotes" placeholder="Kesan saat chat, kelebihan/kekurangan, pendapat keluarga…">${esc(v.notes||"")}</textarea></div>
+
+    ${S.assets ? dropZone("doc","Pricelist & dokumen","Foto pricelist (JPG/PNG) atau PDF dari WhatsApp") + dropZone("avatar","Foto profil","Satu foto, mis. foto profil IG vendor") + dropZone("portfolio","Portofolio","Foto hasil kerja vendor, tampil sebagai grid di pop-up IG")
+      : `<div class="note">Unggah file hanya bisa dilakukan oleh pemilik atau editor halaman ini.</div>`}
+
+    <p class="err-msg" id="fErr" hidden></p>
+    <div class="form-foot">
+      <button class="btn ghost" type="button" data-act="close-form">Batal</button>
+      <button class="btn primary" type="submit" id="fSave">Simpan vendor</button>
+    </div>
+  </form>`;
+  renderUploads();
+}
+function dropZone(kind, title, hint){
+  return `<div class="drop" data-drop="${kind}">
+    <div class="drop-head"><div><b>${title}</b><small>${hint}</small></div>
+      <span class="btn pick">${ICON.up} Pilih file
+        <input id="up-${kind}" type="file" ${kind==="avatar"?"":"multiple"} accept="${kind==="doc"?"image/*,application/pdf,.pdf":"image/*"}" data-kind="${kind}" aria-label="Pilih file ${title}"></span></div>
+    <div class="uplist" id="ul-${kind}"></div></div>`;
+}
+function renderUploads(){
+  for(const kind of ["doc","avatar","portfolio"]){
+    const el = $("ul-"+kind); if(!el) continue;
+    const L = F.files.filter(f => kindOf(f) === kind);
+    el.innerHTML = L.map(f => `<div class="up ${f.error?"err":""}">
+      <div class="ic">${f.uploading?'<span class="spin"></span>': f.error ? "!" : isPdf(f)?"PDF":`<img src="${blob(esc(f.id))}" alt="">`}</div>
+      <div style="min-width:0"><span>${esc(f.name)}</span><small>${f.uploading?"Mengunggah…": f.error ? esc(f.error) : f.size?(f.size/1048576).toFixed(1)+" MB":""}</small></div>
+      ${f.uploading?"":`<button type="button" class="icon-btn" data-rm="${esc(f.tmp||f.id)}" aria-label="Hapus file">${ICON.close}</button>`}
+    </div>`).join("");
+  }
+  const s = $("fSave"); if(s){ s.disabled = F.uploading>0; s.textContent = F.uploading>0 ? "Menunggu unggahan…" : "Simpan vendor"; }
+}
+function guessType(file){
+  if(file.type) return file.type;
+  const n = file.name.toLowerCase();
+  if(n.endsWith(".pdf")) return "application/pdf";
+  if(/\.jpe?g$/.test(n)) return "image/jpeg";
+  if(n.endsWith(".png")) return "image/png";
+  if(n.endsWith(".webp")) return "image/webp";
+  return "";
+}
+async function shrink(file, type){
+  if(!/^image\/(jpeg|png|webp)$/.test(type) || file.size < 2.5e6 || !window.createImageBitmap) return {blob:file, type};
+  try{
+    const bmp = await createImageBitmap(file);
+    const s = Math.min(1, 2200/Math.max(bmp.width,bmp.height));
+    const c = document.createElement("canvas"); c.width = Math.round(bmp.width*s); c.height = Math.round(bmp.height*s);
+    c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+    const b = await new Promise(r => c.toBlob(r,"image/jpeg",0.86));
+    return b && b.size < file.size ? {blob:b, type:"image/jpeg"} : {blob:file, type};
+  }catch(e){ return {blob:file, type}; }
+}
+async function addFiles(list, kind){
+  if(kind==="avatar"){
+    list = [...list].slice(0,1);
+    for(const f of F.files.filter(f => f.kind==="avatar" && !f.uploading)) removeUpload(f.tmp||f.id);
+  }
+  for(const file of list){
+    const type = guessType(file);
+    const tmp = "t" + Math.random().toString(36).slice(2);
+    const item = { tmp, name:file.name, kind, type, uploading:true };
+    F.files.push(item); F.uploading++; renderUploads();
+    try{
+      if(!/^(image\/(jpeg|png|webp)|application\/pdf)$/.test(type)) throw {code:"unsupported_type"};
+      const {blob:b, type:t} = await shrink(file, type);
+      const r = await S.assets.upload(b, {type:t});
+      Object.assign(item, { id:r.id, type:r.contentType||t, size:r.sizeBytes, uploading:false });
+      delete item.tmp;
+      if(F) F.newIds.push(r.id);
+    }catch(e){
+      item.uploading = false;
+      item.error = ({unsupported_type:"Format belum didukung. Gunakan JPG, PNG, atau PDF.", too_large:"File lebih dari 20 MB.", quota_or_state:"Penyimpanan penuh.", rate_limited:"Terlalu cepat, coba lagi sebentar."})[e && e.code] || "Gagal mengunggah. Coba lagi.";
+    }
+    if(!F) return;
+    F.uploading--; renderUploads();
+  }
+}
+function removeUpload(key){
+  const i = F.files.findIndex(f => (f.tmp||f.id) === key); if(i<0) return;
+  const f = F.files[i]; F.files.splice(i,1);
+  if(f.id){ if(F.newIds.includes(f.id)){ F.newIds = F.newIds.filter(x=>x!==f.id); S.assets && S.assets.delete(f.id).catch(()=>{}); } else F.removed.push(f.id); }
+  renderUploads();
+}
+async function submitForm(){
+  const err = $("fErr"); err.hidden = true;
+  const name = $("vName").value.trim();
+  if(!name){ err.textContent = "Isi nama vendor dulu."; err.hidden=false; $("vName").focus(); return; }
+  let pmin = digits($("vMin").value), pmax = digits($("vMax").value);
+  if(pmin && pmax && pmin > pmax) [pmin,pmax] = [pmax,pmin];
+  const now = new Date().toISOString();
+  const data = { ...F.base,
+    category:$("vCat").value, name, ig:igHandle($("vIg").value), phone:$("vPhone").value.trim(),
+    priceMin:pmin, priceMax:pmax, priceNote:$("vPkg").value.trim(), location:$("vLoc").value.trim(),
+    contactName:$("vCp").value.trim(), notes:$("vNotes").value.trim(),
+    igName:$("vIgName").value.trim(), igCategory:$("vIgCat").value.trim(), igPosts:$("vIgPosts").value.trim(),
+    igFollowers:$("vIgFol").value.trim(), igBio:$("vIgBio").value.trim(),
+    status:(document.querySelector('input[name="vSt"]:checked')||{}).value || "baru",
+    files:F.files.filter(f=>f.id && !f.error).map(f=>({id:f.id,name:f.name,type:f.type,kind:kindOf(f),size:f.size||0})),
+    createdAt:F.base.createdAt||now, updatedAt:now };
+  if(data.status!=="deal"){ data.dealFor = data.dealFor||[]; }
+  delete data.isExample;
+  const btn = $("fSave"); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Menyimpan…';
+  try{
+    const id = await saveVendor(F.id, data);
+    const removed = F.removed.slice();
+    await closeForm(true);
+    if(S.assets) for(const r of removed){ try{ await S.assets.delete(r); }catch(e){} }
+    toast("Vendor tersimpan");
+    openDetail(id);
+  }catch(e){
+    btn.disabled=false; btn.textContent="Simpan vendor";
+    err.textContent = e && e.code==="42501" ? "Akun ini belum punya izin edit. Tambahkan emailnya ke tabel editors." : "Belum tersimpan: " + ((e && e.message) || "periksa koneksi lalu coba lagi."); err.hidden=false;
+  }
+}
+
+/* ---------- instagram pop-up ---------- */
+function openIg(){ const v = byId(S.openId); if(!v) return; $("igPop").hidden = false; renderIg(v); lockScroll(); $("igPanel").scrollTop = 0; }
+function closeIg(){ $("igPop").hidden = true; lockScroll(); }
+function renderIg(v){
+  const h = igHandle(v.ig);
+  const wa = waUrl(v.phone);
+  const files = v.files || [];
+  const port = files.filter(f => f.kind==="portfolio" && !isPdf(f));
+  const docs = files.filter(f => kindOf(f)==="doc");
+  const W = S.canWrite && S.db;
+  const start = v.priceMin || v.priceMax;
+  const ava = files.find(f => f.kind==="avatar") || port[0];
+  const avatar = ava ? `<img src="${blob(esc(ava.id))}" alt="">` : esc((v.name||h||"?").replace(/^Contoh:\s*/,"").charAt(0).toUpperCase());
+  const stat1 = v.igPosts ? [v.igPosts,"posts"] : [port.length,"portofolio"];
+  const stat2 = v.igFollowers ? [v.igFollowers,"followers"] : [docs.length,"pricelist"];
+  $("igPanel").innerHTML = `
+    <div class="igp-bar"><b>${ICON.ig}@${esc(h)}</b><button class="icon-btn" data-act="ig-close" aria-label="Tutup">${ICON.close}</button></div>
+    <div class="igp-prof">
+      <div class="igp-ava"><span>${avatar}</span></div>
+      <div class="igp-stats num">
+        <div><b>${esc(stat1[0])}</b><span>${stat1[1]}</span></div>
+        <div><b>${esc(stat2[0])}</b><span>${stat2[1]}</span></div>
+        <div><b>${start ? esc(rpShort(start).replace("Rp ","")) : "–"}</b><span>harga mulai</span></div>
+      </div>
+    </div>
+    <div class="igp-bio"><b>${esc(v.igName || v.name)}</b>${v.igCategory?`<span class="muted" style="font-size:13px">${esc(v.igCategory)}</span>`:`<span class="cat">${esc(v.category||"Lainnya")}</span>`}${v.igBio?`<p style="color:var(--ink)">${esc(v.igBio)}</p>`:""}${v.location?`<span>${esc(v.location)}</span>`:""}${v.priceNote?`<p>${esc(v.priceNote)}</p>`:""}</div>
+    <div class="igp-acts">
+      <a class="btn primary" href="${igUrl(h)}" target="_blank" rel="noopener">${ICON.ext} Feed lengkap di Instagram</a>
+      ${wa?`<a class="btn" href="${wa}" target="_blank" rel="noopener">${ICON.wa} WhatsApp</a>`:""}
+    </div>
+    <div class="igp-tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Portofolio tersimpan</div>
+    ${port.length
+      ? `<div class="igp-grid">${port.map(f=>`<button data-view="${esc(f.id)}" aria-label="Lihat ${esc(f.name)}"><img src="${blob(esc(f.id))}" alt="" loading="lazy"></button>`).join("")}</div>`
+      : `<p class="muted igp-empty">Belum ada foto portofolio untuk vendor ini.${W?" Buka <b>Ubah</b>, lalu unggah foto profil dan foto portofolio vendor.":""}</p>`}
+    <p class="igp-foot">Profil ini diisi dari data yang disimpan di aplikasi. Tombol "Feed lengkap" membuka Instagram asli di tab baru, halaman ini tetap terbuka.</p>`;
+}
+
+/* ---------- viewer ---------- */
+let VW = null;
+function openViewer(fileId){
+  const v = byId(S.openId); if(!v) return;
+  const all = v.files||[];
+  const f = all.find(x=>x.id===fileId); if(!f) return;
+  const group = all.filter(x => kindOf(x) === kindOf(f));
+  VW = { group, i: group.indexOf(f), zoom:false, vendor:v.name };
+  $("viewer").hidden = false; lockScroll(); renderViewer();
+}
+function closeViewer(){ VW=null; $("viewer").hidden=true; $("viewer").innerHTML=""; lockScroll(); }
+function renderViewer(){
+  const f = VW.group[VW.i];
+  const multi = VW.group.length > 1;
+  const el = $("viewer");
+  el.innerHTML = `<div class="v-bar"><div class="t">${esc(f.name)}<small>${esc(VW.vendor)}${multi?` · ${VW.i+1} dari ${VW.group.length}`:""}</small></div>
+    <div class="acts"><a class="v-btn" href="${blob(esc(f.id))}" target="_blank" rel="noopener">${ICON.ext}<span>Tab baru</span></a>
+    <button class="v-btn" data-act="close-viewer" aria-label="Tutup">${ICON.close}</button></div></div>
+    ${multi?`<button class="v-btn v-nav v-prev" data-act="prev" aria-label="Sebelumnya">${ICON.left}</button><button class="v-btn v-nav v-next" data-act="next" aria-label="Berikutnya">${ICON.right}</button>`:""}
+    <div class="v-body ${VW.zoom?"zoom":""}" id="vBody">${isPdf(f)?`<div class="v-msg"><span class="spin"></span>Membuka PDF…</div>`:`<img src="${blob(esc(f.id))}" alt="${esc(f.name)}" data-act="zoom">`}</div>`;
+  if(isPdf(f)) renderPdf(f);
+}
+let pdfLib = null;
+function loadPdfJs(){
+  if(pdfLib) return pdfLib;
+  const base = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+  const add = src => new Promise((res,rej) => { const s=document.createElement("script"); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
+  pdfLib = add(base+"pdf.worker.min.js").then(()=>add(base+"pdf.min.js")).then(()=>{
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = base+"pdf.worker.min.js"; return window.pdfjsLib; });
+  pdfLib.catch(()=>{ pdfLib = null; });
+  return pdfLib;
+}
+async function renderPdf(f){
+  const myI = VW.i;
+  const body = () => $("vBody");
+  try{
+    const lib = await loadPdfJs();
+    const doc = await lib.getDocument({url: blob(f.id)}).promise;
+    if(!VW || VW.i!==myI) return;
+    const wrap = document.createElement("div"); wrap.className = "v-pages";
+    body().innerHTML = ""; body().appendChild(wrap);
+    const width = Math.min(900, body().clientWidth - 16);
+    const dpr = Math.min(window.devicePixelRatio||1, 2);
+    for(let p=1; p<=doc.numPages; p++){
+      if(!VW || VW.i!==myI) return;
+      const page = await doc.getPage(p);
+      const vp0 = page.getViewport({scale:1});
+      const vp = page.getViewport({scale: width/vp0.width*dpr});
+      const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+      wrap.appendChild(c);
+      await page.render({canvasContext:c.getContext("2d"), viewport:vp}).promise;
+    }
+  }catch(e){
+    if(!VW || VW.i!==myI) return;
+    body().innerHTML = `<div class="v-msg">PDF tidak bisa ditampilkan di sini.<a class="v-btn" href="${blob(esc(f.id))}" target="_blank" rel="noopener">${ICON.ext} Buka di tab baru</a></div>`;
+  }
+}
+
+/* ---------- events ---------- */
+$("tabAll").onclick = () => { S.tab="all"; render(); };
+$("tabDeal").onclick = () => { S.tab="deal"; render(); };
+$("q").addEventListener("input", e => { S.q = e.target.value; renderList(); });
+$("fStatus").onchange = e => { S.status = e.target.value; renderList(); };
+$("fSort").onchange = e => { S.sort = e.target.value; renderList(); };
+$("fab").onclick = () => openForm(null);
+
+document.addEventListener("click", async e => {
+  const t = e.target.closest("[data-cat],[data-open],[data-act],[data-view],[data-rm]");
+  if(!t) return;
+  if(t.dataset.cat){ S.cat = t.dataset.cat; renderChips(); renderList(); return; }
+  if(t.dataset.open){ openDetail(t.dataset.open); return; }
+  if(t.dataset.view){ openViewer(t.dataset.view); return; }
+  if(t.dataset.rm){ removeUpload(t.dataset.rm); return; }
+  const a = t.dataset.act;
+  if(a==="close-detail") closeDetail();
+  else if(a==="login-open"){ $("loginWrap").hidden = false; lockScroll(); setTimeout(()=>$("lEmail").focus(), 50); }
+  else if(a==="login-close"){ $("loginWrap").hidden = true; lockScroll(); }
+  else if(a==="logout"){ await sb.auth.signOut(); toast("Sudah keluar"); }
+  else if(a==="ig-open") openIg();
+  else if(a==="ig-close") closeIg();
+  else if(a==="edit"){ const id=S.openId; closeDetail(); openForm(id); }
+  else if(a==="deal"){ S.dealEditing=true; renderDetail(); setTimeout(()=>$("dealForm")?.scrollIntoView({behavior:"smooth",block:"start"}),30); }
+  else if(a==="deal-cancel"){ S.dealEditing=false; renderDetail(); }
+  else if(a==="deal-undo") undoDeal();
+  else if(a==="del-ask"){ S.confirmDelete=true; renderDetail(); }
+  else if(a==="del-no"){ S.confirmDelete=false; renderDetail(); }
+  else if(a==="del-yes") deleteVendor();
+  else if(a==="close-form") closeForm(false);
+  else if(a==="close-viewer") closeViewer();
+  else if(a==="prev" && VW){ VW.i=(VW.i-1+VW.group.length)%VW.group.length; VW.zoom=false; renderViewer(); }
+  else if(a==="next" && VW){ VW.i=(VW.i+1)%VW.group.length; VW.zoom=false; renderViewer(); }
+  else if(a==="zoom" && VW){ VW.zoom=!VW.zoom; $("vBody").classList.toggle("zoom",VW.zoom); }
+  else if(a==="ex-ask"){ S.confirmExamples=true; renderNotices(); }
+  else if(a==="ex-cancel"){ S.confirmExamples=false; renderNotices(); }
+  else if(a==="ex-del"){
+    S.confirmExamples=false;
+    for(const v of S.vendors.filter(v=>v.isExample)){ try{ await removeVendorRow(v.id); }catch(err){} }
+    await loadVendors(); toast("Data contoh dihapus");
+  }
+});
+$("detail").addEventListener("click", e => { if(e.target.id==="detail") closeDetail(); });
+$("formWrap").addEventListener("click", e => { if(e.target.id==="formWrap") closeForm(false); });
+$("igPop").addEventListener("click", e => { if(e.target.id==="igPop") closeIg(); });
+$("loginWrap").addEventListener("click", e => { if(e.target.id==="loginWrap"){ $("loginWrap").hidden = true; lockScroll(); } });
+document.addEventListener("submit", async e => {
+  e.preventDefault();
+  if(e.target.id==="loginForm"){
+    const btn = $("lBtn"), err = $("lErr"); err.hidden = true; btn.disabled = true; btn.textContent = "Memeriksa…";
+    const { error } = await sb.auth.signInWithPassword({ email:$("lEmail").value.trim(), password:$("lPass").value });
+    btn.disabled = false; btn.textContent = "Masuk";
+    if(error){ err.textContent = "Email atau password salah."; err.hidden = false; return; }
+    $("loginWrap").hidden = true; lockScroll(); toast("Berhasil masuk");
+    return;
+  }
+  if(e.target.id==="vForm") submitForm();
+  if(e.target.id==="dealForm") submitDeal();
+});
+document.addEventListener("change", e => {
+  if(e.target.matches('input[type="file"][data-kind]')){ const files=[...e.target.files]; e.target.value=""; if(files.length) addFiles(files, e.target.dataset.kind); }
+});
+document.addEventListener("input", e => {
+  if(e.target.matches("[data-money]")){ const d = digits(e.target.value); e.target.value = d ? nf.format(d) : ""; }
+});
+["dragover","dragenter"].forEach(ev => document.addEventListener(ev, e => { const d=e.target.closest?.("[data-drop]"); if(d){ e.preventDefault(); d.classList.add("over"); } }));
+["dragleave","drop"].forEach(ev => document.addEventListener(ev, e => { const d=e.target.closest?.("[data-drop]"); if(d){ d.classList.remove("over"); } }));
+document.addEventListener("drop", e => {
+  const d = e.target.closest?.("[data-drop]"); if(!d || !F) return;
+  e.preventDefault(); const files=[...(e.dataTransfer?.files||[])]; if(files.length) addFiles(files, d.dataset.drop);
+});
+document.addEventListener("keydown", e => {
+  if(e.key==="Escape"){ if(!$("loginWrap").hidden){ $("loginWrap").hidden = true; lockScroll(); } else if(!$("viewer").hidden) closeViewer(); else if(!$("igPop").hidden) closeIg(); else if(!$("formWrap").hidden) closeForm(false); else if(!$("detail").hidden) closeDetail(); }
+  if(VW && e.key==="ArrowRight"){ VW.i=(VW.i+1)%VW.group.length; renderViewer(); }
+  if(VW && e.key==="ArrowLeft"){ VW.i=(VW.i-1+VW.group.length)%VW.group.length; renderViewer(); }
+});
+
+boot();
+})();
+</script>
+</body>
+</html>
